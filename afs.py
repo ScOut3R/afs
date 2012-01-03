@@ -43,15 +43,12 @@ class ServiceBase(object):
 	
 	def __init__(self, config):
 		self.network = config.network
+		self.options = config.options[self.__class__.__name__.lower()]
 
 	def reload_service(self):
 		os.system(self.options['reload'])
 		
 class DHCP(ServiceBase):
-	
-	def __init__(self, config):
-		super(self.__class__, self).__init__(config)
-		self.options = config.options['dhcp']
 		
 	def generate(self):
 		output = open(self.options['configfile'], "w")
@@ -71,7 +68,6 @@ class DNS(ServiceBase):
 	
 	def __init__(self, config):
 		super(self.__class__, self).__init__(config)
-		self.options = config.options['dns']
 		self.written = []
 	
 	def generate(self):
@@ -92,10 +88,6 @@ class DNS(ServiceBase):
 		reverse_output.close()
 
 class RADIUS(ServiceBase):
-	
-	def __init__(self, config):
-		super(self.__class__, self).__init__(config)
-		self.options = config.options['radius']
 		
 	def generate(self):
 		output = open(self.options['macfile'], "w")
