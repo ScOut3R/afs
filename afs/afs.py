@@ -107,13 +107,12 @@ class RADIUS(ServiceBase):
 def generate(config):
 	
 	for service in config.options['manage']:
-		service_obj = getattr(__main__, service.upper())
-		service_obj = service_obj(config)
+		service_obj = sys.modules[__name__].__dict__[service.upper()](config)
 		service_obj.generate()
 		if config.options[service].has_key('reload') and config.doreload == True:
 			service_obj.reload_service()
 
-if __name__ == '__main__':
+def main():
 	
 	parser = argparse.ArgumentParser(description='Automated Firewall System')
 	parser.add_argument('command', choices=[ 'generate' ], help='what operation to perform (choices: %(choices)s)', metavar="command")
