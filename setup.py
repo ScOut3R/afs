@@ -9,7 +9,7 @@ setup(name='afs',
 	zip_safe=False,
 	entry_points={
 		'console_scripts': [
-			'afs = afs.afs:main',
+			'afs = afs.main:main',
 			],
 		},
 )
