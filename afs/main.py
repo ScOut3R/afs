@@ -22,6 +22,7 @@ def main():
 	args = parser.parse_args()
 	
 	config = Config(args)
+	config.validate()
 	
 	if args.command == 'generate':
 		generate(config)

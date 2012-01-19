@@ -1,5 +1,6 @@
 import yaml
 import sys
+import re
 
 class Config(object):
 	
@@ -34,3 +35,10 @@ class Config(object):
 		for key in self.network.keys():
 			if not self.network[key].has_key('host'):
 				self.network[key]['host'] = key
+
+	def validate(self):
+
+		hostname = re.compile('[^a-z0-9-]')
+		for host in self.network.keys():
+			if not hostname.search(self.network[host]['host']) == None:
+				sys.exit( "%s includes invalid character: %s" % ( host, hostname.search(self.network[host]['host']).group(0) ) )
