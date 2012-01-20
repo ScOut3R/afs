@@ -37,10 +37,15 @@ class Config(object):
 				self.network[key]['host'] = key
 
 	def validate(self):
+		self.validate_hostname()
 
-		hostname = re.compile('[^a-z0-9-]')
+	def validate_hostname(self):
+		
+		regex = re.compile('[^a-z0-9-]')
 		for host in self.network.keys():
-			if not hostname.search(self.network[host]['host']) == None:
-				sys.exit( "%s includes invalid character: %s" % ( self.network[host]['host'], hostname.search(self.network[host]['host']).group(0) ) )
+			hostname = self.network[host]['host']
+			check = regex.search(hostname)
+			if not check == None:
+				sys.exit( "%s includes invalid character: %s" % ( hostname, check.group(0) ) )
 			elif self.network[host]['host'][0] == '-':
-				sys.exit( "%s begins with invalid character: -" % self.network[host]['host'] )
+				sys.exit( "%s begins with invalid character: -" % hostname )
