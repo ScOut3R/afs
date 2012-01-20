@@ -41,4 +41,6 @@ class Config(object):
 		hostname = re.compile('[^a-z0-9-]')
 		for host in self.network.keys():
 			if not hostname.search(self.network[host]['host']) == None:
-				sys.exit( "%s includes invalid character: %s" % ( host, hostname.search(self.network[host]['host']).group(0) ) )
+				sys.exit( "%s includes invalid character: %s" % ( self.network[host]['host'], hostname.search(self.network[host]['host']).group(0) ) )
+			elif self.network[host]['host'][0] == '-':
+				sys.exit( "%s begins with invalid character: -" % self.network[host]['host'] )
