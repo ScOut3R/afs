@@ -1,5 +1,4 @@
 import yaml
-import sys
 import re
 from afs.errors import Error
 
@@ -15,17 +14,16 @@ def parse_config(args):
 		doreload = True
 	
 	if not options.has_key('manage'):
-		sys.exit("No 'manage' block in config.yml!")
+		raise Error("No 'manage' block in config.yml!")
 	elif options['manage'] == None:
-		sys.exit("The 'manage' block does not contain any definition!")
+		raise Error("The 'manage' block does not contain any definition!")
 	
 	if not options.has_key('network'):
 		options['network'] = '/etc/afs/network.yml'
 
 	for service in options['manage']:
 		if not options.has_key(service):
-			msg = ("No %s block in config.yml!") % service
-			sys.exit(msg)
+			raise Error( "No %s block in config.yml!" % service )
 
 	networkfile = open(options['network'], "r")
 	network = yaml.load(networkfile)
@@ -57,9 +55,9 @@ class Config(object):
 			
 			check = regex.search(hostname)
 			if not check == None:
-				sys.exit( "%s includes invalid character: %s" % ( hostname, check.group(0) ) )
+				raise Error( "%s includes invalid character: %s" % ( hostname, check.group(0) ) )
 			elif self.network[host]['host'][0] == '-':
-				sys.exit( "%s begins with invalid character: -" % hostname )
+				raise Error( "%s begins with invalid character: -" % hostname )
 	
 			if hosts.count(hostname) > 1:
 				for duplicate_host in self.network.keys():

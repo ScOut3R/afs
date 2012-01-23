@@ -22,7 +22,10 @@ def main():
 	
 	args = parser.parse_args()
 	
-	parse = parse_config(args)
+	try:
+		parse = parse_config(args)
+	except Error as e:
+		sys.exit(e.msg)
 	config = Config(parse['options'], parse['network'], parse['doreload'])
 	try:
 		config.validate()
