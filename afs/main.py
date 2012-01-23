@@ -2,7 +2,8 @@
 import argparse
 import sys
 from afs.services import *
-from afs.config import Config
+from afs.config import Config, parse_config
+from afs.errors import Error
 
 def generate(config):
 	
@@ -21,8 +22,12 @@ def main():
 	
 	args = parser.parse_args()
 	
-	config = Config(args)
-	config.validate()
+	parse = parse_config(args)
+	config = Config(parse['options'], parse['network'], parse['doreload'])
+	try:
+		config.validate()
+	except Error as e:
+		sys.exit(e.msg)
 	
 	if args.command == 'generate':
 		generate(config)
