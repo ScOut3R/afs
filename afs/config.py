@@ -1,6 +1,8 @@
 import yaml
 import re
 from afs.errors import Error
+from socket import inet_aton
+from socket import error as socket_error
 
 def parse_config(args):
 	
@@ -83,3 +85,7 @@ class Config(object):
 				else:
 					raise Error( "%s has duplicated ip configuration!" % host )
 		
+			try:
+				inet_aton(self.network[host]['ip'])
+			except socket_error:
+				raise Error( "%s has invalid IP address configuration!" % host )
