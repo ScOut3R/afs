@@ -16,7 +16,7 @@ def generate(config):
 def main():
 	
 	parser = argparse.ArgumentParser(description='Automated Firewall System')
-	parser.add_argument('command', choices=[ 'generate' ], help='what operation to perform (choices: %(choices)s)', metavar="command")
+	parser.add_argument('command', choices=[ 'generate', 'check' ], help='what operation to perform (choices: %(choices)s)', metavar="command")
 	parser.add_argument('-c', '--config', default='/etc/afs/config.yml', help='use alternate config file (default: %(default)s)')
 	parser.add_argument('-n', '--noreload', action="store_const", const=True, help="don't reload services")
 	
@@ -32,5 +32,9 @@ def main():
 	except Error as e:
 		sys.exit(e.msg)
 	
+	if args.command == 'check':
+		print "Syntax OK"
+		sys.exit(0)
+
 	if args.command == 'generate':
 		generate(config)
