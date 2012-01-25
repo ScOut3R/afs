@@ -72,10 +72,8 @@ notebook-lan:
 		config = Config("", self.network2, "")
 		try:
 			config.validate_ip()
-		except Error:
-			pass
-		else:
-			self.fail("Unexpected exception")
+		except Error as e:
+			self.fail("Unexpected exception: %s" % e.msg)
 
 	def test_ip_format(self):
 		config = Config("", self.network3, "")

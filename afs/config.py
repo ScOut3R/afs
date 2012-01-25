@@ -78,12 +78,10 @@ class Config(object):
 		for host in self.network.keys():
 			
 			for duplicate_host in self.network.keys():
-				if host == duplicate_host:
+				if host == duplicate_host or self.network[host]['host'] == self.network[duplicate_host]['host']:
 					continue
-				
-				if self.network[host]['ip'] == self.network[duplicate_host]['ip'] and self.network[host]['host'] == self.network[duplicate_host]['host']:
-					continue
-				else:
+
+				if self.network[host]['ip'] == self.network[duplicate_host]['ip'] and self.network[host]['host'] != self.network[duplicate_host]['host']:
 					raise Error( "%s has duplicated ip configuration!" % host )
 		
 			try:
