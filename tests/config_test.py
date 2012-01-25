@@ -43,6 +43,21 @@ notebook-wifi:
 			pass
 		else:
 			self.fail('Unexpected exception')
+	
+	def test_ip_duplication(self):
+		config = Config("", self.network, "")
+		try:
+			config.validate_ip()
+		except Error as e:
+			self.fail("Unexpected exception: %s" % e.msg)
+		
+		config = Config("", self.network2, "")
+		try:
+			config.validate_ip()
+		except Error:
+			pass
+		else:
+			self.fail("Unexpected exception")
 
 if __name__ == "__main__":
 	unittest.main()

@@ -69,3 +69,17 @@ class Config(object):
 						continue
 					else:
 						raise Error( "%s has a duplicated host configuration!" % host )
+
+	def validate_ip(self):
+		
+		for host in self.network.keys():
+			
+			for duplicate_host in self.network.keys():
+				if host == duplicate_host:
+					continue
+				
+				if self.network[host]['ip'] == self.network[duplicate_host]['ip'] and self.network[host]['host'] == self.network[duplicate_host]['host']:
+					continue
+				else:
+					raise Error( "%s has duplicated ip configuration!" % host )
+		
