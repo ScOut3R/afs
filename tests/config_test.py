@@ -30,7 +30,7 @@ notebook-wifi:
  host: notebook
  radius: 1""")
 
-	def test_hostname_duplocation(self):
+	def test_hostname_duplication(self):
 		config = Config("", self.network, "")
 		try:
 			config.validate_hostname()
