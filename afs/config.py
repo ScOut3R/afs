@@ -45,6 +45,7 @@ class Config(object):
 				self.network[key]['host'] = key
 
 	def validate(self):
+		self.validate_ip()
 		self.validate_hostname()
 
 	def validate_hostname(self):
