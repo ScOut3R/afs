@@ -47,6 +47,7 @@ class Config(object):
 	def validate(self):
 		self.validate_ip()
 		self.validate_hostname()
+		self.validate_shorewall()
 
 	def validate_hostname(self):
 		
@@ -88,3 +89,14 @@ class Config(object):
 				inet_aton(self.network[host]['ip'])
 			except socket_error:
 				raise Error( "%s has invalid IP address configuration!" % host )
+
+	def validate_shorewall(self):
+		for module in self.options['shorewall']['modules']:
+			if not self.options['shorewall'].has_key(module):
+				raise Error("Shorewall does not have %s module config!" % module )
+
+		if self.options['shorewall'].has_key('maclist'):
+			if not self.options['shorewall']['maclist'].has_key('interface'):
+				raise Error("Shorewall maclist module does not define an interface!")
+			if not self.options['shorewall']['maclist'].has_key('configfile'):
+				raise Error("Shorewall maclist module does not define the 'configfile' option!")

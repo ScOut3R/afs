@@ -1,6 +1,6 @@
 import os
 
-__all__ = [ "dhcp", "dns", "radius" ]
+__all__ = [ "dhcp", "dns", "radius", "shorewall" ]
 
 class ServiceBase(object):
 	
