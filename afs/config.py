@@ -45,9 +45,12 @@ class Config(object):
 				self.network[key]['host'] = key
 
 	def validate(self):
-		self.validate_ip()
-		self.validate_hostname()
-		self.validate_shorewall()
+		if self.options.has_key('dhcp') or self.options.has_key('dns') or self.options.has_key('radius'):
+			self.validate_ip()
+			self.validate_hostname()
+		
+		if self.options.has_key('shorewall'):
+			self.validate_shorewall()
 
 	def validate_hostname(self):
 		
