@@ -1,4 +1,5 @@
 from __init__ import ServiceBase
+import time
 
 class DNS(ServiceBase):
 	
@@ -22,3 +23,17 @@ class DNS(ServiceBase):
 			
 		forward_output.close()
 		reverse_output.close()
+		
+		serial = int(time.time())
+		
+		for zonefile in [ self.options['forward-master-zone-file'], self.options['reverse-master-zone-file'] ]:
+			
+			master_file = open(zonefile, 'r')
+			master_content = master_file.readlines()
+			master_file.close()
+		
+			master_content[2] = "\t\t\t%i\t;serial number\n" % serial
+
+			master_file = open(zonefile, 'r+')
+			master_file.writelines(master_content)
+			master_file.close()
