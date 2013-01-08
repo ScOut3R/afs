@@ -26,7 +26,7 @@ class SHOREWALL(ServiceBase):
 					template = "%s\n" % group
 					output_actions.write(template)
 				
-				output = open("%s%s.actions" % ( self.options['groups']['actions-path'], group ), "w")
+				output = open("%s/action.%s" % ( self.options['groups']['actions-path'], group ), "w")
 				
 				for ip in sorted(groups[group]['ips']):
 					template = "%s\t%s\n" % ( groups[group]['policy'], ip )
