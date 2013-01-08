@@ -103,3 +103,14 @@ class Config(object):
 				raise Error("Shorewall maclist module does not define an interface!")
 			if not self.options['shorewall']['maclist'].has_key('configfile'):
 				raise Error("Shorewall maclist module does not define the 'configfile' option!")
+		
+		if self.options['shorewall'].has_key('groups'):
+			if not self.options['shorewall']['groups'].has_key('config'):
+				self.options['shorewall']['groups']['config'] = "/etc/afs/groups.yml"
+			if not self.options['shorewall']['groups'].has_key('manage-actions'):
+				self.options['shorewall']['groups']['manage-actions'] = False
+			else:
+				if not self.options['shorewall']['groups'].has_key('actions-file'):
+					self.options['shorewall']['groups']['actions-file'] = "/etc/shorewall/actions"
+			if not self.options['shorewall']['groups'].has_key('actions-path'):
+				self.options['shorewall']['groups']['actions-path'] = "/etc/shorewall/"
